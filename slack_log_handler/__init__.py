@@ -17,9 +17,12 @@ class SlackLogHandler(logging.Handler):
         logging.CRITICAL: ':boom:'
     }
 
-    def __init__(self, webhook_url, channel=None, username=None, emojis=None,
+    def __init__(self, webhook_url=None, channel=None, username=None, emojis=None,
                  format='[%(levelname)s] [%(asctime)s] [%(name)s] - %(message)s'):
         logging.Handler.__init__(self)
+        if webhook_url is None:
+            raise RuntimeError('Please set a valid Slack webhook_url.')
+
         self.webhook_url = webhook_url
         self.channel = channel
         self.username = username
